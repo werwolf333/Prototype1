@@ -1,0 +1,24 @@
+# Unity
+*.csproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+*.suo
+*.tmp
+*.svd
+*.swp
+*.log
+*.pidb
+*.suo
+*.tmp
+*.unityproj
+.vs/
+.idea/
+.vscode/
+/Library/
+/Temp/
+/Obj/
+/Build/
+/Builds/
+/Logs/
