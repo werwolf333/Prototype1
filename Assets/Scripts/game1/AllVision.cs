@@ -28,6 +28,8 @@ public class AllVision : MonoBehaviour
     {
         if (collision.gameObject.name == "enemy")
         {
+            var targetEnemy = collision.gameObject.GetComponent<Enemy>();
+            targetEnemy.CurSetActive(false);
             enemiesInAllView.Remove(collision.gameObject);
         }
     }
@@ -42,15 +44,29 @@ public class AllVision : MonoBehaviour
             {
                 targetGoal = 0;
             }
+        }
+    }
 
+    void ShowCurTarget()
+    {
+        if(enemiesInAllView.Count != 0)
+        {
             foreach (var enemyView in enemiesInAllView)
             {
                 var enemy = enemyView.GetComponent<Enemy>();
                 enemy.CurSetActive(false);
             }
-
             var targetEnemy  = enemiesInAllView[targetGoal].GetComponent<Enemy>();
-            targetEnemy .CurSetActive(true);
+            targetEnemy.CurSetActive(true);
+        }
+        else
+        {
+            foreach (var enemyView in enemiesInAllView)
+            {
+                var enemy = enemyView.GetComponent<Enemy>();
+                enemy.CurSetActive(false);
+            }
+            var targetEnemy  = enemiesInAllView[targetGoal].GetComponent<Enemy>();
         }
     }
 
@@ -86,6 +102,7 @@ public class AllVision : MonoBehaviour
             float adjustedAngle = targetAngle + 180f;
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, adjustedAngle));
             visionComponent.RotateTo(targetRotation, rotationSpeed);
+            ShowCurTarget();
         }
     }
 
