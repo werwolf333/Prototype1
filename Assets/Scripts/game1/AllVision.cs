@@ -5,15 +5,17 @@ using UnityEngine;
 public class AllVision : MonoBehaviour
 {
     public List<GameObject> enemiesInAllView = new List<GameObject>();
-    private int targetGoal = 0;
+    public int targetGoal = -1;
     public bool isTargetGoal;
     private Vision visionComponent;
     private GameObject vision;
+    private Attack attackComponent;
 
     void Start()
     {
         visionComponent = GameObject.Find("vision").GetComponent<Vision>();
         vision = GameObject.Find("vision");
+        attackComponent = GameObject.Find("attack").GetComponent<Attack>();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -21,6 +23,7 @@ public class AllVision : MonoBehaviour
         if (collision.gameObject.name == "enemy")
         {
             enemiesInAllView.Add(collision.gameObject);
+            SortEnemiesByDistance();
         }
     }
 
@@ -31,6 +34,7 @@ public class AllVision : MonoBehaviour
             var targetEnemy = collision.gameObject.GetComponent<Enemy>();
             targetEnemy.CurSetActive(false);
             enemiesInAllView.Remove(collision.gameObject);
+            SortEnemiesByDistance();
         }
     }
 
@@ -58,6 +62,7 @@ public class AllVision : MonoBehaviour
             }
             var targetEnemy  = enemiesInAllView[targetGoal].GetComponent<Enemy>();
             targetEnemy.CurSetActive(true);
+            attackComponent.PutTargetGoalObject(enemiesInAllView[targetGoal]);
         }
         else
         {
@@ -75,10 +80,11 @@ public class AllVision : MonoBehaviour
         if (enemiesInAllView.Count == 0)
         {
             isTargetGoal = false;
+            targetGoal = -1;
+            attackComponent.PutTargetGoalObject(null);
         }
         else
         {
-            SortEnemiesByDistance();
             FindTarget();
         }
 
@@ -102,6 +108,7 @@ public class AllVision : MonoBehaviour
             float adjustedAngle = targetAngle + 180f;
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, adjustedAngle));
             visionComponent.RotateTo(targetRotation, rotationSpeed);
+            attackComponent.RotateTo(targetRotation, rotationSpeed);       
             ShowCurTarget();
         }
     }
@@ -117,6 +124,7 @@ public class AllVision : MonoBehaviour
             float targetAngle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg + 180;
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, targetAngle));
             visionComponent.RotateTo(targetRotation, rotationSpeed);
+            attackComponent.RotateTo(targetRotation, rotationSpeed); 
         }
     }
 
