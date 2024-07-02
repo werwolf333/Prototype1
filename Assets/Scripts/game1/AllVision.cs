@@ -5,8 +5,8 @@ using UnityEngine;
 public class AllVision : MonoBehaviour
 {
     public List<GameObject> enemiesInAllView = new List<GameObject>();
-    public int targetGoal = -1;
     public bool isTargetGoal;
+    public GameObject targetGoal;
     private Vision visionComponent;
     private GameObject vision;
     private Attack attackComponent;
@@ -42,12 +42,28 @@ public class AllVision : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            isTargetGoal = true;
-            targetGoal++;
-            if(targetGoal >= enemiesInAllView.Count)
+            if(!isTargetGoal)
             {
-                targetGoal = 0;
+                targetGoal = enemiesInAllView[0];
             }
+            else
+            {
+                SelectNextTarget();
+            }
+            isTargetGoal = true;
+        }
+    }
+
+    void SelectNextTarget()
+    {
+        int index = enemiesInAllView.IndexOf(targetGoal); 
+        if(index + 1 >= enemiesInAllView.Count)
+        {
+            targetGoal = enemiesInAllView[0];
+        }
+        else
+        {
+            targetGoal = enemiesInAllView[index + 1];
         }
     }
 
@@ -60,9 +76,9 @@ public class AllVision : MonoBehaviour
                 var enemy = enemyView.GetComponent<Enemy>();
                 enemy.CurSetActive(false);
             }
-            var targetEnemy  = enemiesInAllView[targetGoal].GetComponent<Enemy>();
+            var targetEnemy  = targetGoal.GetComponent<Enemy>();
             targetEnemy.CurSetActive(true);
-            attackComponent.PutTargetGoalObject(enemiesInAllView[targetGoal]);
+            attackComponent.PutTargetGoalObject(targetGoal);
         }
         else
         {
@@ -71,7 +87,6 @@ public class AllVision : MonoBehaviour
                 var enemy = enemyView.GetComponent<Enemy>();
                 enemy.CurSetActive(false);
             }
-            var targetEnemy  = enemiesInAllView[targetGoal].GetComponent<Enemy>();
         }
     }
 
@@ -80,7 +95,6 @@ public class AllVision : MonoBehaviour
         if (enemiesInAllView.Count == 0)
         {
             isTargetGoal = false;
-            targetGoal = -1;
             attackComponent.PutTargetGoalObject(null);
         }
         else
@@ -100,10 +114,19 @@ public class AllVision : MonoBehaviour
 
     void ToTarget()
     {
-        if (targetGoal >= 0 && targetGoal < enemiesInAllView.Count && enemiesInAllView[targetGoal] != null)
+        GameObject goalObject = null;
+        if(enemiesInAllView.Contains(targetGoal))
         {
-            var rotationSpeed = 20f;
-            Vector2 directionToTarget = (enemiesInAllView[targetGoal].transform.position - vision.transform.position).normalized;
+            goalObject = targetGoal;
+        }
+        else
+        {
+            SelectNextTarget();
+        }
+        var rotationSpeed = 20f;
+        if(goalObject != null)
+        {
+            Vector2 directionToTarget = (goalObject.transform.position - vision.transform.position).normalized;
             float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
             float adjustedAngle = targetAngle + 180f;
             Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, adjustedAngle));
