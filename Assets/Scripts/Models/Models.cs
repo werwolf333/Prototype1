@@ -5,6 +5,7 @@ public class UnitDB
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
+    public string Type { get; set; }
     public float Health { get; set; } 
     public float Stamina { get; set; }
     public float Equilibrium { get; set; }

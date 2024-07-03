@@ -11,6 +11,8 @@ public class Hero : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        var hero = GetComponent<Unit>();
+        moveSpeed = hero.runningSpeed;
         rb.gravityScale = 0;
     }
 

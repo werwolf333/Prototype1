@@ -19,7 +19,7 @@ public class Attack : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "enemy")
+        if (collision.gameObject.tag == "enemy")
         {
             enemiesInAttack.Add(collision.gameObject);
         }
@@ -27,7 +27,7 @@ public class Attack : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "enemy")
+        if (collision.gameObject.tag == "enemy")
         {
             enemiesInAttack.Remove(collision.gameObject);
         }

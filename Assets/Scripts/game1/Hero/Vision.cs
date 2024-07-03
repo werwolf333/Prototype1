@@ -11,7 +11,7 @@ public class Vision : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "enemy")
+        if (collision.gameObject.tag == "enemy")
         {
             var enemyComponent = collision.gameObject.GetComponent<Enemy>();
             enemyComponent.BarSetActive(true);
@@ -20,7 +20,7 @@ public class Vision : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "enemy")
+        if (collision.gameObject.tag == "enemy")
         {
             var enemyComponent = collision.gameObject.GetComponent<Enemy>();
             enemyComponent.BarSetActive(false);

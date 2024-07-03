@@ -20,7 +20,7 @@ public class AllVision : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "enemy")
+        if (collision.gameObject.tag == "enemy")
         {
             enemiesInAllView.Add(collision.gameObject);
             SortEnemiesByDistance();
@@ -29,7 +29,7 @@ public class AllVision : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "enemy")
+        if (collision.gameObject.tag == "enemy")
         {
             var targetEnemy = collision.gameObject.GetComponent<Enemy>();
             targetEnemy.CurSetActive(false);

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public int id;
+    public string type;
     public float health;
     public float stamina;
     public float equilibrium;
