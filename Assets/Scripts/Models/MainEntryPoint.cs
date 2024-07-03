@@ -12,7 +12,7 @@ public class MainEntryPoint : MonoBehaviour {
 
 	public void JustStart() {
         db = new TDB("DB.db");
-        db.CreateTable<SaveDB>();
+        db.CreateTable<UnitDB>();
 	}
 
     //-------------------------------------------------------------------

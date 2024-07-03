@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    private float attack = 2f;
     private GameObject targetGoalObject;
     public List<GameObject> enemiesInAttack = new List<GameObject>();
     public void RotateTo(Quaternion targetRotation, float rotationSpeed)
@@ -38,8 +39,26 @@ public class Attack : MonoBehaviour
         {
             if (enemiesInAttack.Contains(targetGoalObject))
             {
-                Destroy(targetGoalObject);
+                ToWound();
             }
+        }
+    }
+
+    void ToWound()
+    {
+        var unit = targetGoalObject.GetComponent<Unit>();
+        var pureAttack = attack - unit.protection;
+        if(pureAttack<0)
+        {
+            pureAttack = 0;
+        }
+        Debug.Log(pureAttack);
+        unit.health = unit.health - pureAttack;
+        Debug.Log("урон");
+        if(unit.health <= 0)
+        {
+            Debug.Log("убил");
+            Destroy(targetGoalObject);
         }
     }
 }
