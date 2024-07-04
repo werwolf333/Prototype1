@@ -113,7 +113,6 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine(currentCoroutine);
         }
-        //animator.Play(startClip);
         StartCoroutine(WaitAndPlayIdle(startClip, endClip));
     }
 
@@ -148,7 +147,6 @@ public class Enemy : MonoBehaviour
     {
         animator.Play(startClip);
         float clipLength = TimeClip(startClip);
-        Debug.Log(clipLength);
         if (clipLength > 0)
         {
             yield return new WaitForSeconds(clipLength);
