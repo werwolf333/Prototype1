@@ -46,27 +46,7 @@ public class Attack : MonoBehaviour
 
     void ToWound()
     {
-        var unit = targetGoalObject.GetComponent<Unit>();
         var enemy = targetGoalObject.GetComponent<Enemy>();
-        var pureAttack = attack - unit.protection;
-        if(pureAttack<0)
-        {
-            pureAttack = 0;
-        }
-        unit.health = unit.health - pureAttack;
-        if(unit.health <= 0)
-        {
-            var timeToDie = enemy.ToDie();
-            Invoke("DestroyTargetGoalObject", timeToDie);
-        }
-        else
-        {
-            enemy.TakeDamage();
-        }
-    }
-
-    void DestroyTargetGoalObject()
-    {
-        Destroy(targetGoalObject);
+        enemy.TakeDamage(attack);
     }
 }

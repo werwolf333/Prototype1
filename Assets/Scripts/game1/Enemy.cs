@@ -7,14 +7,61 @@ public class Enemy : MonoBehaviour
     private Transform bar;
     private Transform cur;
     private Animator animator;
-    private string orientation;
+    public string orientation;
     void Start()
     {
+        //orientation = "front";
         animator = GetComponent<Animator>();
+        StartClip();
         bar = transform.Find("bar");
         cur = transform.Find("cur");
         bar.gameObject.SetActive(false);
         cur.gameObject.SetActive(false);
+    }
+
+    public void TakeDamage(float attack)
+    {
+        var unit = GetComponent<Unit>();
+        var pureAttack = attack - unit.protection;
+        if(pureAttack<0)
+        {
+            pureAttack = 0;
+        }
+        unit.health = unit.health - pureAttack;
+        if(unit.health <= 0)
+        {
+            var timeToDie = ToDie();
+            Invoke("DestroyTargetGoalObject", timeToDie); 
+        }
+        else
+        {
+            TakeDamage();
+        }
+    }
+
+    void DestroyTargetGoalObject()
+    {
+        Destroy(gameObject);
+    }
+
+    void StartClip()
+    {
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = "idle_front";
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "idle_back";
+        }
+
+        if (orientation == "side")
+        {
+            startClip = "idle_side";
+        } 
+        animator.Play(startClip);  
     }
 
     public void BarSetActive(bool b)
@@ -29,15 +76,49 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage()
     {
-        var startClip = "pain_front";
-        var endClip = "idle_front";
+        var startClip = "";
+        var endClip = "";
+        if (orientation == "front")
+        {
+            startClip = "pain_front";
+            endClip = "idle_front";
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "pain_back";
+            endClip = "idle_back";
+        }
+
+        if (orientation == "side")
+        {
+            startClip = "pain_side";
+            endClip = "idle_side";
+        }
+
+
         animator.Play(startClip);
         StartCoroutine(WaitAndPlayIdle(startClip, endClip));
     }
 
     public float ToDie()
     {
-        var startClip = "dying_front";
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = "dying_front";
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "dying_back";
+        }
+
+        if (orientation == "side")
+        {
+            startClip = "dying_side";
+        }
+
         animator.Play(startClip);
         return TimeClip(startClip);
     }
