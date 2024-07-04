@@ -1632,7 +1632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f41f92d86ac3fd341ac6ebeec760373f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orientation: side
+  orientation: side_right
 --- !u!61 &1467438288
 BoxCollider2D:
   m_ObjectHideFlags: 0

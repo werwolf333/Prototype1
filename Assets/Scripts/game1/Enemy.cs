@@ -7,16 +7,18 @@ public class Enemy : MonoBehaviour
     private Transform bar;
     private Transform cur;
     private Animator animator;
+    private Coroutine currentCoroutine;
+    private SpriteRenderer spriteRenderer;
     public string orientation;
     void Start()
     {
-        //orientation = "front";
+        spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        StartClip();
         bar = transform.Find("bar");
         cur = transform.Find("cur");
         bar.gameObject.SetActive(false);
         cur.gameObject.SetActive(false);
+        StartClip();
     }
 
     public void TakeDamage(float attack)
@@ -57,10 +59,15 @@ public class Enemy : MonoBehaviour
             startClip = "idle_back";
         }
 
-        if (orientation == "side")
+        if (orientation == "side_left")
         {
             startClip = "idle_side";
-        } 
+        }
+        if (orientation == "side_right")
+        {
+            startClip = "idle_side";
+            spriteRenderer.flipX = true;
+        }  
         animator.Play(startClip);  
     }
 
@@ -90,14 +97,23 @@ public class Enemy : MonoBehaviour
             endClip = "idle_back";
         }
 
-        if (orientation == "side")
+        if (orientation == "side_left")
         {
             startClip = "pain_side";
             endClip = "idle_side";
         }
 
-
-        animator.Play(startClip);
+        if (orientation == "side_right")
+        {
+            startClip = "pain_side";
+            endClip = "idle_side";
+            spriteRenderer.flipX = true;
+        }
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+        }
+        //animator.Play(startClip);
         StartCoroutine(WaitAndPlayIdle(startClip, endClip));
     }
 
@@ -114,21 +130,28 @@ public class Enemy : MonoBehaviour
             startClip = "dying_back";
         }
 
-        if (orientation == "side")
+        if (orientation == "side_left")
         {
             startClip = "dying_side";
         }
 
+        if (orientation == "side_right")
+        {
+            startClip = "dying_side";
+            spriteRenderer.flipX = true;
+        }
         animator.Play(startClip);
         return TimeClip(startClip);
     }
 
     IEnumerator WaitAndPlayIdle(string startClip, string endClip)
     {
+        animator.Play(startClip);
         float clipLength = TimeClip(startClip);
+        Debug.Log(clipLength);
         if (clipLength > 0)
         {
-            yield return new WaitForSeconds(clipLength );
+            yield return new WaitForSeconds(clipLength);
             animator.Play(endClip);
         }
     }
