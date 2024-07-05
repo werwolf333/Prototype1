@@ -7,18 +7,14 @@ public class Hero : MonoBehaviour
     private float moveSpeed = 5f;
     private Rigidbody2D rb;
     private Vector2 movement;
-
-    private Sprite cidonia_idle_back;
-    private Sprite cidonia_idle_front;
-    private Sprite cidonia_idle_side;
+    public string orientation;
+    private Animator animator;
     private SpriteRenderer spriteRenderer;
 
 
     void Start()
     {
-        cidonia_idle_back = Resources.Load<Sprite>("hero/edle/cidonia_idle_back");
-        cidonia_idle_front = Resources.Load<Sprite>("hero/edle/cidonia_idle_front");
-        cidonia_idle_side = Resources.Load<Sprite>("hero/edle/cidonia_idle_side");
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         var hero = GetComponent<Unit>();
@@ -32,33 +28,77 @@ public class Hero : MonoBehaviour
         float moveY = Input.GetAxis("Vertical");
         movement = new Vector2(moveX, moveY);
         transform.Translate(movement * moveSpeed * Time.deltaTime);
-        UpdateSpriteDirection(moveX, moveY);
+        ToOrientation(moveX, moveY);
+        AnimationHero(moveX, moveY);
     }
-
-    void UpdateSpriteDirection(float moveX, float moveY)
+    
+    void AnimationHero(float moveX, float moveY)
     {
-        if (Mathf.Abs(moveX) > Mathf.Abs(moveY))
+        if(moveX == 0 && moveY == 0)
         {
-            spriteRenderer.sprite = cidonia_idle_side;
-            if (moveX < 0)
+            if(orientation == "side_right")
             {
+                animator.Play("idle_side"); 
+                spriteRenderer.flipX = false;
+            }
+            if(orientation == "side_left")
+            {
+                animator.Play("idle_side"); 
                 spriteRenderer.flipX = true;
             }
-            else
+            if(orientation == "back")
             {
+                animator.Play("idle_back"); 
+                spriteRenderer.flipX = false;
+            }
+            if(orientation == "front")
+            {
+                animator.Play("idle_front"); 
                 spriteRenderer.flipX = false;
             }
         }
         else
         {
-            if (moveY > 0)
+            if(orientation == "side_right")
             {
-                spriteRenderer.sprite = cidonia_idle_back;
+                animator.Play("run_side"); 
+                spriteRenderer.flipX = false;
             }
-            else
+            if(orientation == "side_left")
             {
-                spriteRenderer.sprite = cidonia_idle_front;
+                animator.Play("run_side"); 
+                spriteRenderer.flipX = true;
+            }
+            if(orientation == "back")
+            {
+                animator.Play("run_back"); 
+                spriteRenderer.flipX = false;
+            }
+            if(orientation == "front")
+            {
+                animator.Play("run_front"); 
+                spriteRenderer.flipX = false;
             }
         }
+    }
+
+    void ToOrientation(float moveX, float moveY)
+    {
+        if (moveX > 0)
+        {
+            orientation = "side_right";
+        }
+        else if (moveX < 0)
+        {
+            orientation = "side_left";
+        }
+        else if (moveY > 0)
+        {
+            orientation = "back";
+        }
+        else if (moveY < 0)
+        {
+            orientation = "front";
+        } 
     }
 }
