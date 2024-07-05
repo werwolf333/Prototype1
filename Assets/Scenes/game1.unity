@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 483014204}
   - component: {fileID: 483014205}
   - component: {fileID: 483014206}
+  - component: {fileID: 483014207}
   m_Layer: 0
   m_Name: hero
   m_TagString: Untagged
@@ -371,6 +372,27 @@ MonoBehaviour:
   attackSpeed: 0
   runningSpeed: 5
   level: 0
+--- !u!95 &483014207
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483014201}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e42c276835e8714d910182453afca05, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &513428786
 GameObject:
   m_ObjectHideFlags: 0

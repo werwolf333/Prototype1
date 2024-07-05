@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine(currentCoroutine);
         }
-        StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+        currentCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
     }
 
     public float ToDie()
