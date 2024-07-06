@@ -1,4 +1,6 @@
 # Unity
+*.csproj
+*.sln
 *.user
 *.userprefs
 *.pidb
@@ -10,6 +12,7 @@
 *.pidb
 *.suo
 *.tmp
+*.unityproj
 .vs/
 .idea/
 .vscode/

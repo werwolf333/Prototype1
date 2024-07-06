@@ -7,11 +7,13 @@ public class Hero : Unit
     private Rigidbody2D rb;
     public bool busyAnimator;
     private AllVision allVisionComponent;
+    private Attack attackComponent;
 
 
     void Start()
     {
-        allVisionComponent = GameObject.Find("allVision").GetComponent<AllVision>();
+        attackComponent = transform.Find("attack").GetComponent<Attack>();
+        allVisionComponent = transform.Find("allVision").GetComponent<AllVision>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -35,42 +37,44 @@ public class Hero : Unit
 
     void ToAttack()
     {
-        if(allVisionComponent.attackable)
+        busyAnimator = true;
+        if (attackCoroutine != null)
         {
-            busyAnimator = true;
-            if (attackCoroutine != null)
-            {
-                StopCoroutine(attackCoroutine);
-            }
-            var startClip = "";
-            var endClip = "";
+            StopCoroutine(attackCoroutine);
+        }
+        var startClip = "";
+        var endClip = "";
 
-            if(orientation == "side_right")
-            {
-                startClip = "attack_side";
-                endClip = "idle_side"; 
-            }
-            if(orientation == "side_left")
-            {
-                startClip = "attack_side";
-                endClip = "idle_side"; 
-            }
-            if(orientation == "back")
-            {
-                startClip = "attack_back";
-                endClip = "idle_back"; 
-            }
-            if(orientation == "front")
-            {
-                startClip = "attack_front";
-                endClip = "idle_front"; 
-            }
-            attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
-            var enemy = allVisionComponent.targetGoal.GetComponent<Enemy>();
-            enemy.TakeDamage(damage);
-            float clipLength = TimeClip(startClip);
-            Invoke("SetBusyAnimatorFalse", clipLength);
-        }  
+        if(orientation == "side_right")
+        {
+            startClip = "attack_side";
+            endClip = "idle_side"; 
+        }
+        if(orientation == "side_left")
+        {
+            startClip = "attack_side";
+            endClip = "idle_side"; 
+        }
+        if(orientation == "back")
+        {
+            startClip = "attack_back";
+            endClip = "idle_back"; 
+        }
+        if(orientation == "front")
+        {
+            startClip = "attack_front";
+            endClip = "idle_front"; 
+        }
+        attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+        var enemiesInAttack = attackComponent.enemiesInAttack;
+        foreach (var enemy in enemiesInAttack)
+        {
+            var enemyComponent = enemy.GetComponent<Enemy>();
+            enemyComponent.TakeDamage(damage);
+        }
+        float clipLength = TimeClip(startClip);
+        Invoke("SetBusyAnimatorFalse", clipLength);
+
     }
 
     void SetBusyAnimatorFalse()

@@ -6,7 +6,6 @@ public class AllVision : MonoBehaviour
 {
     public List<GameObject> enemiesInAllView = new List<GameObject>();
     public bool isTargetGoal;
-    public bool attackable;
     public GameObject targetGoal;
     private Vision visionComponent;
     private GameObject vision;
@@ -79,7 +78,6 @@ public class AllVision : MonoBehaviour
             }
             var targetEnemy  = targetGoal.GetComponent<Enemy>();
             targetEnemy.CurSetActive(true);
-            attackable = attackComponent.TargetCheck(targetGoal);
         }
         else
         {
@@ -96,9 +94,6 @@ public class AllVision : MonoBehaviour
         if (enemiesInAllView.Count == 0)
         {
             isTargetGoal = false;
-            attackable = false;
-            attackable = false;
-            //attackComponent.TargetCheck(null);
         }
         else
         {

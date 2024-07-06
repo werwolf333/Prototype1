@@ -25,16 +25,4 @@ public class Attack : MonoBehaviour
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
-
-    public bool  TargetCheck(GameObject curEnemy)
-    {
-        if (enemiesInAttack.Contains(curEnemy))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 }
