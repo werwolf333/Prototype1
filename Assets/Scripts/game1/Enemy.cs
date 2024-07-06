@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     private Transform bar;
     private Transform cur;
     private Animator animator;
-    private Coroutine currentCoroutine;
+    private Coroutine takeDamageCoroutine;
     private SpriteRenderer spriteRenderer;
     public string orientation;
     void Start()
@@ -109,11 +109,11 @@ public class Enemy : MonoBehaviour
             endClip = "idle_side";
             spriteRenderer.flipX = true;
         }
-        if (currentCoroutine != null)
+        if (takeDamageCoroutine != null)
         {
-            StopCoroutine(currentCoroutine);
+            StopCoroutine(takeDamageCoroutine);
         }
-        currentCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
     }
 
     public float ToDie()
@@ -161,8 +161,8 @@ public class Enemy : MonoBehaviour
         {
             if (clip.name == clipName)
             {
-                float playbackSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
-                return clip.length / playbackSpeed;
+                float playSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
+                return clip.length / playSpeed;
             }
         }
         return 0f;

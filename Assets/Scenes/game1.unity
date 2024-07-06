@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: 
+  busyAnimator: 0
 --- !u!50 &483014205
 Rigidbody2D:
   serializedVersion: 4

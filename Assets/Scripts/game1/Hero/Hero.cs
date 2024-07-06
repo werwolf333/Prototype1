@@ -10,6 +10,7 @@ public class Hero : MonoBehaviour
     public string orientation;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    public bool busyAnimator;
 
 
     void Start()
@@ -34,50 +35,53 @@ public class Hero : MonoBehaviour
     
     void AnimationHero(float moveX, float moveY)
     {
-        if(moveX == 0 && moveY == 0)
+        if(!busyAnimator)
         {
-            if(orientation == "side_right")
+            if(moveX == 0 && moveY == 0)
             {
-                animator.Play("idle_side"); 
-                spriteRenderer.flipX = false;
+                if(orientation == "side_right")
+                {
+                    animator.Play("idle_side"); 
+                    spriteRenderer.flipX = false;
+                }
+                if(orientation == "side_left")
+                {
+                    animator.Play("idle_side"); 
+                    spriteRenderer.flipX = true;
+                }
+                if(orientation == "back")
+                {
+                    animator.Play("idle_back"); 
+                    spriteRenderer.flipX = false;
+                }
+                if(orientation == "front")
+                {
+                    animator.Play("idle_front"); 
+                    spriteRenderer.flipX = false;
+                }
             }
-            if(orientation == "side_left")
+            else
             {
-                animator.Play("idle_side"); 
-                spriteRenderer.flipX = true;
-            }
-            if(orientation == "back")
-            {
-                animator.Play("idle_back"); 
-                spriteRenderer.flipX = false;
-            }
-            if(orientation == "front")
-            {
-                animator.Play("idle_front"); 
-                spriteRenderer.flipX = false;
-            }
-        }
-        else
-        {
-            if(orientation == "side_right")
-            {
-                animator.Play("run_side"); 
-                spriteRenderer.flipX = false;
-            }
-            if(orientation == "side_left")
-            {
-                animator.Play("run_side"); 
-                spriteRenderer.flipX = true;
-            }
-            if(orientation == "back")
-            {
-                animator.Play("run_back"); 
-                spriteRenderer.flipX = false;
-            }
-            if(orientation == "front")
-            {
-                animator.Play("run_front"); 
-                spriteRenderer.flipX = false;
+                if(orientation == "side_right")
+                {
+                    animator.Play("run_side"); 
+                    spriteRenderer.flipX = false;
+                }
+                if(orientation == "side_left")
+                {
+                    animator.Play("run_side"); 
+                    spriteRenderer.flipX = true;
+                }
+                if(orientation == "back")
+                {
+                    animator.Play("run_back"); 
+                    spriteRenderer.flipX = false;
+                }
+                if(orientation == "front")
+                {
+                    animator.Play("run_front"); 
+                    spriteRenderer.flipX = false;
+                }
             }
         }
     }
