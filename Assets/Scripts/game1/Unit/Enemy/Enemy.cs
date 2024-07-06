@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Unit
 {
     private Transform bar;
     private Transform cur;
     private Animator animator;
     private Coroutine takeDamageCoroutine;
     private SpriteRenderer spriteRenderer;
-    public string orientation;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -23,17 +22,16 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float attack)
     {
-        var unit = GetComponent<Unit>();
-        var pureAttack = attack - unit.protection;
+        var pureAttack = attack - protection;
         if(pureAttack<0)
         {
             pureAttack = 0;
         }
-        unit.health = unit.health - pureAttack;
-        if(unit.health <= 0)
+        health = health - pureAttack;
+        if(health <= 0)
         {
             var timeToDie = ToDie();
-            Invoke("DestroyTargetGoalObject", timeToDie); 
+            Invoke("KillYourself", timeToDie); 
         }
         else
         {
@@ -41,7 +39,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void DestroyTargetGoalObject()
+    void KillYourself()
     {
         Destroy(gameObject);
     }
@@ -113,7 +111,7 @@ public class Enemy : MonoBehaviour
         {
             StopCoroutine(takeDamageCoroutine);
         }
-        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, animator));
     }
 
     public float ToDie()
@@ -140,31 +138,6 @@ public class Enemy : MonoBehaviour
             spriteRenderer.flipX = true;
         }
         animator.Play(startClip);
-        return TimeClip(startClip);
-    }
-
-    IEnumerator WaitAndPlayIdle(string startClip, string endClip)
-    {
-        animator.Play(startClip);
-        float clipLength = TimeClip(startClip);
-        if (clipLength > 0)
-        {
-            yield return new WaitForSeconds(clipLength);
-            animator.Play(endClip);
-        }
-    }
-
-    float TimeClip(string clipName)
-    {
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-        foreach (AnimationClip clip in clips)
-        {
-            if (clip.name == clipName)
-            {
-                float playSpeed = animator.GetCurrentAnimatorStateInfo(0).speed;
-                return clip.length / playSpeed;
-            }
-        }
-        return 0f;
+        return TimeClip(startClip, animator);
     }
 }

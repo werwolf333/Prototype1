@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+public class Hero : Unit
 {
-    private float moveSpeed = 5f;
     private Rigidbody2D rb;
     private Vector2 movement;
-    public string orientation;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     public bool busyAnimator;
@@ -18,8 +16,6 @@ public class Hero : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        var hero = GetComponent<Unit>();
-        moveSpeed = hero.runningSpeed;
         rb.gravityScale = 0;
     }
 
@@ -28,7 +24,7 @@ public class Hero : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         movement = new Vector2(moveX, moveY);
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
+        transform.Translate(movement * runningSpeed * Time.deltaTime);
         ToOrientation(moveX, moveY);
         AnimationHero(moveX, moveY);
     }
