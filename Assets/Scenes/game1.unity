@@ -498,7 +498,7 @@ MonoBehaviour:
   stamina: 0
   equilibrium: 0
   mana: 0
-  damage: 1
+  damage: 2
   protection: 0
   animationSpeed: 0
   attackSpeed: 0
@@ -883,6 +883,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesInAllView: []
   isTargetGoal: 0
+  attackable: 0
   targetGoal: {fileID: 0}
 --- !u!1 &1109283682
 GameObject:

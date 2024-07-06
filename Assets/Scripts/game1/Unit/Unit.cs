@@ -42,8 +42,9 @@ public class Unit : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
 
     protected Coroutine takeDamageCoroutine;
+    protected Coroutine attackCoroutine;
 
-    protected float TimeClip(string clipName, Animator animator)
+    protected float TimeClip(string clipName)
     {
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
         foreach (AnimationClip clip in clips)
@@ -60,7 +61,7 @@ public class Unit : MonoBehaviour
     protected IEnumerator WaitAndPlayIdle(string startClip, string endClip)
     {
         animator.Play(startClip);
-        float clipLength = TimeClip(startClip, animator);
+        float clipLength = TimeClip(startClip);
         if (clipLength > 0)
         {
             yield return new WaitForSeconds(clipLength);
@@ -85,6 +86,31 @@ public class Unit : MonoBehaviour
         {
             AnimationTakeDamage();
         }
+    }
+
+    protected void AnimationStart()
+    {
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = idle_front;
+        }
+
+        if (orientation == "back")
+        {
+            startClip = idle_back;
+        }
+
+        if (orientation == "side_left")
+        {
+            startClip = idle_side;
+            spriteRenderer.flipX = true;
+        }
+        if (orientation == "side_right")
+        {
+            startClip = idle_side;
+        }  
+        animator.Play(startClip);  
     }
 
     protected void AnimationTakeDamage()
@@ -149,7 +175,7 @@ public class Unit : MonoBehaviour
             startClip = "dying_side";
         }
         animator.Play(startClip);
-        return TimeClip(startClip, animator);
+        return TimeClip(startClip);
     }
 
     protected void ToDie()

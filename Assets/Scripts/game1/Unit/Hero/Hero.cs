@@ -7,10 +7,12 @@ public class Hero : Unit
     private Rigidbody2D rb;
     private Vector2 movement;
     public bool busyAnimator;
+    private AllVision allVisionComponent;
 
 
     void Start()
     {
+        allVisionComponent = GameObject.Find("allVision").GetComponent<AllVision>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -19,15 +21,65 @@ public class Hero : Unit
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            ToAttack();
+        }
+
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         movement = new Vector2(moveX, moveY);
         transform.Translate(movement * runningSpeed * Time.deltaTime);
         ToOrientation(moveX, moveY);
-        AnimationHero(moveX, moveY);
+        AnimationMoveHero(moveX, moveY);
+    }
+
+    void ToAttack()
+    {
+        if(allVisionComponent.attackable)
+        {
+            busyAnimator = true;
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+            }
+            var startClip = "";
+            var endClip = "";
+
+            if(orientation == "side_right")
+            {
+                startClip = "attack_side";
+                endClip = "idle_side"; 
+            }
+            if(orientation == "side_left")
+            {
+                startClip = "attack_side";
+                endClip = "idle_side"; 
+            }
+            if(orientation == "back")
+            {
+                startClip = "attack_back";
+                endClip = "idle_back"; 
+            }
+            if(orientation == "front")
+            {
+                startClip = "attack_front";
+                endClip = "idle_front"; 
+            }
+            attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+            var enemy = allVisionComponent.targetGoal.GetComponent<Enemy>();
+            enemy.TakeDamage(damage);
+            float clipLength = TimeClip(startClip);
+            Invoke("SetBusyAnimatorFalse", clipLength);
+        }  
+    }
+
+    void SetBusyAnimatorFalse()
+    {
+        busyAnimator = false;
     }
     
-    void AnimationHero(float moveX, float moveY)
+    void AnimationMoveHero(float moveX, float moveY)
     {
         if(!busyAnimator)
         {

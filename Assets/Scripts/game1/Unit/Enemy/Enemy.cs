@@ -14,32 +14,7 @@ public class Enemy : Unit
         cur = transform.Find("cur");
         bar.gameObject.SetActive(false);
         cur.gameObject.SetActive(false);
-        StartClip();
-    }
-
-    void StartClip()
-    {
-        var startClip = "";
-        if (orientation == "front")
-        {
-            startClip = "idle_front";
-        }
-
-        if (orientation == "back")
-        {
-            startClip = "idle_back";
-        }
-
-        if (orientation == "side_left")
-        {
-            startClip = "idle_side";
-            spriteRenderer.flipX = true;
-        }
-        if (orientation == "side_right")
-        {
-            startClip = "idle_side";
-        }  
-        animator.Play(startClip);  
+        AnimationStart();
     }
 
     public void BarSetActive(bool b)
