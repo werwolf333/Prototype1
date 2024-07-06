@@ -492,8 +492,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
+  orientation: 
   type: 
-  health: 0
+  health: 10
   stamina: 0
   equilibrium: 0
   mana: 0
@@ -503,7 +504,6 @@ MonoBehaviour:
   attackSpeed: 0
   runningSpeed: 4
   level: 0
-  orientation: 
   busyAnimator: 0
 --- !u!50 &483014205
 Rigidbody2D:
@@ -1252,6 +1252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
+  orientation: side_left
   type: 
   health: 3
   stamina: 0
@@ -1263,7 +1264,6 @@ MonoBehaviour:
   attackSpeed: 0
   runningSpeed: 0
   level: 0
-  orientation: side_right
 --- !u!61 &1324310938
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1522,6 +1522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
+  orientation: side_right
   type: 
   health: 3
   stamina: 0
@@ -1533,7 +1534,6 @@ MonoBehaviour:
   attackSpeed: 0
   runningSpeed: 0
   level: 0
-  orientation: side_right
 --- !u!61 &1467438288
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2322,6 +2322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
+  orientation: front
   type: 
   health: 3
   stamina: 0
@@ -2333,7 +2334,6 @@ MonoBehaviour:
   attackSpeed: 0
   runningSpeed: 0
   level: 0
-  orientation: side_right
 --- !u!61 &1843362294
 BoxCollider2D:
   m_ObjectHideFlags: 0

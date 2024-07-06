@@ -38,6 +38,11 @@ public class Unit : MonoBehaviour
     protected string attack_front = "attack_front";
     protected string attack_side = "attack_side";
 
+    protected Animator animator;
+    protected SpriteRenderer spriteRenderer;
+
+    protected Coroutine takeDamageCoroutine;
+
     protected float TimeClip(string clipName, Animator animator)
     {
         AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
@@ -52,7 +57,7 @@ public class Unit : MonoBehaviour
         return 0f;
     }
 
-    protected IEnumerator WaitAndPlayIdle(string startClip, string endClip, Animator animator)
+    protected IEnumerator WaitAndPlayIdle(string startClip, string endClip)
     {
         animator.Play(startClip);
         float clipLength = TimeClip(startClip, animator);
@@ -61,5 +66,94 @@ public class Unit : MonoBehaviour
             yield return new WaitForSeconds(clipLength);
             animator.Play(endClip);
         }
+    }
+
+    public void TakeDamage(float attack)
+    {
+        var pureAttack = attack - protection;
+        if(pureAttack<0)
+        {
+            pureAttack = 0;
+        }
+        health = health - pureAttack;
+        if(health <= 0)
+        {
+            var timeToDie = AnimationToDie();
+            Invoke("ToDie", timeToDie); 
+        }
+        else
+        {
+            AnimationTakeDamage();
+        }
+    }
+
+    protected void AnimationTakeDamage()
+    {
+        var startClip = "";
+        var endClip = "";
+        if (orientation == "front")
+        {
+            startClip = "pain_front";
+            endClip = "idle_front";
+            spriteRenderer.flipX = false;
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "pain_back";
+            endClip = "idle_back";
+            spriteRenderer.flipX = false;
+        }
+
+        if (orientation == "side_left")
+        {
+            startClip = "pain_side";
+            endClip = "idle_side";
+            spriteRenderer.flipX = true;
+        }
+
+        if (orientation == "side_right")
+        {
+            startClip = "pain_side";
+            endClip = "idle_side";
+            spriteRenderer.flipX = false;
+        }
+        if (takeDamageCoroutine != null)
+        {
+            StopCoroutine(takeDamageCoroutine);
+        }
+        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+    }
+
+    protected float AnimationToDie()
+    {
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = "dying_front";
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "dying_back";
+        }
+
+        if (orientation == "side_left")
+        {
+            startClip = "dying_side";
+            spriteRenderer.flipX = true;
+        }
+
+        if (orientation == "side_right")
+        {
+            startClip = "dying_side";
+        }
+        animator.Play(startClip);
+        return TimeClip(startClip, animator);
+    }
+
+    protected void ToDie()
+    {
+        Destroy(gameObject);
     }
 }

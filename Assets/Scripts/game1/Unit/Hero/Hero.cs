@@ -6,8 +6,6 @@ public class Hero : Unit
 {
     private Rigidbody2D rb;
     private Vector2 movement;
-    private Animator animator;
-    private SpriteRenderer spriteRenderer;
     public bool busyAnimator;
 
 
