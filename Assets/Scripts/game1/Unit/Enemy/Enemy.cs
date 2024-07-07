@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    private Transform bar;
-    private Transform cur;
-    void Start()
+    protected Transform bar;
+    protected Transform cur;
+    protected void PreStart()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
@@ -14,7 +14,7 @@ public class Enemy : Unit
         cur = transform.Find("cur");
         bar.gameObject.SetActive(false);
         cur.gameObject.SetActive(false);
-        AnimationStart();
+        AnimationIdle();
     }
 
     public void BarSetActive(bool b)

@@ -60,7 +60,7 @@ public partial class Unit : MonoBehaviour
         }
     }
 
-    protected void AnimationStart()
+    protected void AnimationIdle()
     {
         var startClip = "";
         if (orientation == "front")
@@ -84,4 +84,29 @@ public partial class Unit : MonoBehaviour
         }  
         animator.Play(startClip);  
     }
+
+    protected void AnimationRun()
+    {
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = run_front;
+        }
+
+        if (orientation == "back")
+        {
+            startClip = run_back;
+        }
+
+        if (orientation == "side_left")
+        {
+            startClip = run_side;
+            spriteRenderer.flipX = true;
+        }
+        if (orientation == "side_right")
+        {
+            startClip = run_side;
+        }  
+        animator.Play(startClip);  
+    } 
 }
