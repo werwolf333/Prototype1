@@ -29,7 +29,7 @@ public partial class Unit : MonoBehaviour
         }
     }
 
-    protected void AnimationTakeDamage()
+    protected float AnimationTakeDamage()
     {
         var startClip = "";
         var endClip = "";
@@ -65,5 +65,7 @@ public partial class Unit : MonoBehaviour
             StopCoroutine(takeDamageCoroutine);
         }
         takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, 0));
+        var clipLength = TimeClip(startClip);
+        return clipLength;
     }
 }

@@ -24,6 +24,11 @@ public partial class Hero : Unit
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            TakeDamageHero();
+        }
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             ToAttack();
@@ -42,13 +47,15 @@ public partial class Hero : Unit
         busyAnimator = true;
         if(isArmed)
         {
-            AnimationArmedAttack();
+            var clipLength = AnimationArmedAttack();
             AnimationSwordAttack();
             AnimationShieldAttack();
+            Invoke("SetBusyAnimatorFalse", clipLength);
         }
         else
         {
-            AnimationUnarmedAttack();
+            var clipLength = AnimationUnarmedAttack();
+            Invoke("SetBusyAnimatorFalse", clipLength);
         }
         var enemiesInAttack = attackComponent.enemiesInAttack;
         foreach (var enemy in enemiesInAttack)
@@ -63,7 +70,7 @@ public partial class Hero : Unit
         busyAnimator = false;
     }
 
-    void AnimationUnarmedAttack()
+    float AnimationUnarmedAttack()
     {
         if (attackCoroutine != null)
         {
@@ -94,7 +101,7 @@ public partial class Hero : Unit
         }
         attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, 0));
         float clipLength = TimeClip(startClip);
-        Invoke("SetBusyAnimatorFalse", clipLength);
+        return clipLength;
     }
     
     void AnimationMoveHero(float moveX, float moveY)
@@ -158,6 +165,29 @@ public partial class Hero : Unit
     void ToStayUnarmed()
     {
         AnimationHero("idle");
+    }
+
+    void TakeDamageHero()
+    {
+        busyAnimator = true;
+        if(isArmed)
+        {
+            var clipLength = AnimationTakeDamageArmed();
+            AnimationTakeDamageSword();
+            AnimationTakeDamageShield();
+            Invoke("SetBusyAnimatorFalse", clipLength);
+        }
+        else
+        {
+            var clipLength = AnimationTakeDamageUnarmed();
+            Invoke("SetBusyAnimatorFalse", clipLength);
+        }
+    }
+
+    float AnimationTakeDamageUnarmed()
+    {
+        var clipLength = AnimationTakeDamage();
+        return clipLength;
     }
 
     void ToOrientation(float moveX, float moveY)

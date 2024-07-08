@@ -41,7 +41,7 @@ public partial class Hero : Unit
         AnimationShield("run_shield");
     }
 
-    void AnimationArmedAttack()
+    float AnimationArmedAttack()
     {
         if (attackCoroutine != null)
         {
@@ -71,8 +71,8 @@ public partial class Hero : Unit
             endClip = "idle_armed_front"; 
         }
         attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, 0));
-        float clipLength = TimeClip(startClip);
-        Invoke("SetBusyAnimatorFalse", clipLength);
+        var clipLength = TimeClip(startClip);
+        return clipLength;
     }
 
     void AnimationSwordAttack()
@@ -193,5 +193,77 @@ public partial class Hero : Unit
                 shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -5);
                 break;
         }
+    }
+
+    float AnimationTakeDamageArmed()
+    {
+        var startClip = "";
+        if(orientation == "side_right")
+        {
+            startClip = "pain_armed_side";
+        }
+        if(orientation == "side_left")
+        {
+            startClip = "pain_armed_side";
+        }
+        if(orientation == "back")
+        {
+            startClip = "pain_armed_back";
+        }
+        if(orientation == "front")
+        {
+            startClip = "pain_armed_front";
+        }
+        animator.Play(startClip);
+        var clipLength = TimeClip(startClip);
+        return clipLength;
+    }
+
+    float AnimationTakeDamageSword()
+    {
+        var startClip = "";
+        if(orientation == "side_right")
+        {
+            startClip = "pain_sword_side";
+        }
+        if(orientation == "side_left")
+        {
+            startClip = "pain_sword_side";
+        }
+        if(orientation == "back")
+        {
+            startClip = "pain_sword_back";
+        }
+        if(orientation == "front")
+        {
+            startClip = "pain_sword_front";
+        }
+        animator.Play(startClip);
+        var clipLength = TimeClip(startClip);
+        return clipLength;
+    }
+
+    float AnimationTakeDamageShield()
+    {
+        var startClip = "";
+        if(orientation == "side_right")
+        {
+            startClip = "pain_shield_side";
+        }
+        if(orientation == "side_left")
+        {
+            startClip = "pain_shield_side";
+        }
+        if(orientation == "back")
+        {
+            startClip = "pain_shield_back";
+        }
+        if(orientation == "front")
+        {
+            startClip = "pain_shield_front";
+        }
+        animator.Play(startClip);
+        var clipLength = TimeClip(startClip);
+        return clipLength;
     }
 }
