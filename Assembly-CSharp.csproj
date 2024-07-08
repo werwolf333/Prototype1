@@ -108,6 +108,7 @@
     <Compile Include="Assets\Scripts\game1\Unit\Unit.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
+    <Compile Include="Assets\Scripts\game1\Unit\Hero\HeroArmed.cs" />
     <Compile Include="Assets\Scripts\game1\Unit\Hero\Vision.cs" />
     <Compile Include="Assets\Scripts\game1\Unit\UnitDying.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />

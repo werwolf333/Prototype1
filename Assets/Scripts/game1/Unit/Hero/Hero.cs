@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hero : Unit
+public partial class Hero : Unit
 {
     private Rigidbody2D rb;
     public bool busyAnimator;
     private AllVision allVisionComponent;
     private Attack attackComponent;
+    public bool isArmed;
 
 
     void Start()
     {
+        PreStart();
         attackComponent = transform.Find("attack").GetComponent<Attack>();
         allVisionComponent = transform.Find("allVision").GetComponent<AllVision>();
         animator = GetComponent<Animator>();
@@ -86,63 +88,63 @@ public class Hero : Unit
     {
         if(!busyAnimator)
         {
-            if(moveX == 0 && moveY == 0)
+            if(isArmed)
             {
-                ToStay();
+                if(moveX == 0 && moveY == 0)
+                {
+                    ToStayArmed();
+                }
+                else
+                {
+                    ToMoveArmed();
+                }
             }
             else
             {
-                ToMove();
+                if(moveX == 0 && moveY == 0)
+                {
+                    ToStayUnarmed();
+                }
+                else
+                {
+                    ToMoveUnarmed();
+                }
             }
+
         }
     }
 
-    void ToMove()
+    void  AnimationHero(string action)
     {
-        if(orientation == "side_right")
+        switch (orientation)
         {
-            animator.Play("run_side"); 
-            spriteRenderer.flipX = false;
-        }
-        if(orientation == "side_left")
-        {
-            animator.Play("run_side"); 
-            spriteRenderer.flipX = true;
-        }
-        if(orientation == "back")
-        {
-            animator.Play("run_back"); 
-            spriteRenderer.flipX = false;
-        }
-        if(orientation == "front")
-        {
-            animator.Play("run_front"); 
-            spriteRenderer.flipX = false;
+            case "side_right":
+                animator.Play($"{action}_side"); 
+                spriteRenderer.flipX = false;
+                break;
+            case "side_left":
+                animator.Play($"{action}_side"); 
+                spriteRenderer.flipX = true;
+                break;
+            case "back":
+                animator.Play($"{action}_back"); 
+                spriteRenderer.flipX = false;
+                break;
+            case "front":
+                animator.Play($"{action}_front"); 
+                spriteRenderer.flipX = false;
+                break;
         }
     }
 
-    void ToStay()
+    void ToMoveUnarmed()
     {
-        if(orientation == "side_right")
-        {
-            animator.Play("idle_side"); 
-            spriteRenderer.flipX = false;
-        }
-        if(orientation == "side_left")
-        {
-            animator.Play("idle_side"); 
-            spriteRenderer.flipX = true;
-        }
-        if(orientation == "back")
-        {
-            animator.Play("idle_back"); 
-            spriteRenderer.flipX = false;
-        }
-        if(orientation == "front")
-        {
-            animator.Play("idle_front"); 
-            spriteRenderer.flipX = false;
-        }
+        AnimationHero("run");
+    }
+
+    void ToStayUnarmed()
+    {
+        AnimationHero("idle");
     }
 
     void ToOrientation(float moveX, float moveY)
