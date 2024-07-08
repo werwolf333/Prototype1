@@ -49,14 +49,14 @@ public partial class Unit : MonoBehaviour
         return 0f;
     }
 
-    protected IEnumerator WaitAndPlayIdle(string startClip, string endClip)
+    protected IEnumerator WaitAndPlayIdle(string startClip, string endClip, int animationLayer)
     {
         animator.Play(startClip);
         float clipLength = TimeClip(startClip);
         if (clipLength > 0)
         {
             yield return new WaitForSeconds(clipLength);
-            animator.Play(endClip);
+            animator.Play(endClip, animationLayer);
         }
     }
 

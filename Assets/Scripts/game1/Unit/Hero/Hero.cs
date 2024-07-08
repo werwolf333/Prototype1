@@ -40,6 +40,31 @@ public partial class Hero : Unit
     void ToAttack()
     {
         busyAnimator = true;
+        if(isArmed)
+        {
+            AnimationArmedAttack();
+            AnimationSwordAttack();
+            AnimationShieldAttack();
+        }
+        else
+        {
+            AnimationUnarmedAttack();
+        }
+        var enemiesInAttack = attackComponent.enemiesInAttack;
+        foreach (var enemy in enemiesInAttack)
+        {
+            var enemyComponent = enemy.GetComponent<Enemy>();
+            enemyComponent.TakeDamage(damage);
+        }
+    }
+
+    void SetBusyAnimatorFalse()
+    {
+        busyAnimator = false;
+    }
+
+    void AnimationUnarmedAttack()
+    {
         if (attackCoroutine != null)
         {
             StopCoroutine(attackCoroutine);
@@ -67,21 +92,9 @@ public partial class Hero : Unit
             startClip = "attack_front";
             endClip = "idle_front"; 
         }
-        attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
-        var enemiesInAttack = attackComponent.enemiesInAttack;
-        foreach (var enemy in enemiesInAttack)
-        {
-            var enemyComponent = enemy.GetComponent<Enemy>();
-            enemyComponent.TakeDamage(damage);
-        }
+        attackCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, 0));
         float clipLength = TimeClip(startClip);
         Invoke("SetBusyAnimatorFalse", clipLength);
-
-    }
-
-    void SetBusyAnimatorFalse()
-    {
-        busyAnimator = false;
     }
     
     void AnimationMoveHero(float moveX, float moveY)

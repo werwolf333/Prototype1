@@ -64,6 +64,6 @@ public partial class Unit : MonoBehaviour
         {
             StopCoroutine(takeDamageCoroutine);
         }
-        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip));
+        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, 0));
     }
 }
