@@ -592,6 +592,7 @@ MonoBehaviour:
   level: 0
   busyAnimator: 0
   isArmed: 1
+  isWalk: 1
 --- !u!50 &483014205
 Rigidbody2D:
   serializedVersion: 4
