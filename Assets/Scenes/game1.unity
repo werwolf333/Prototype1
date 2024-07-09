@@ -588,11 +588,11 @@ MonoBehaviour:
   protection: 0
   animationSpeed: 0
   attackSpeed: 0
-  runningSpeed: 3
+  runningSpeed: 2
   level: 0
+  optionsMoveHero: 1
   busyAnimator: 0
   isArmed: 1
-  isWalk: 1
 --- !u!50 &483014205
 Rigidbody2D:
   serializedVersion: 4

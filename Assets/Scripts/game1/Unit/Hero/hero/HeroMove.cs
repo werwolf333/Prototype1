@@ -16,13 +16,17 @@ public partial class Hero : Unit
                 }
                 else
                 {
-                    if(isWalk)
+                    if(moveHero == "walk")
                     {
                         ToWalkArmed();
                     }
-                    else
+                    if(moveHero == "run")
                     {
-                        ToMoveArmed();
+                        ToRunArmed();
+                    }
+                    if(moveHero == "sprint")
+                    {
+                        ToSprintArmed();
                     }
                 }
             }
@@ -34,17 +38,33 @@ public partial class Hero : Unit
                 }
                 else
                 {
-                    if(isWalk)
+                    if(moveHero == "walk")
                     {
                         ToWalkUnarmed();
                     }
-                    else
+                    if(moveHero == "run")
                     {
-                        ToMoveUnarmed();
+                        ToRunUnarmed();
+                    }
+                    if(moveHero == "sprint")
+                    {
+                        ToSprintUnarmed();
                     }
                 }
             }
         }
+    }
+
+    void ToSprintArmed()
+    {
+        AnimationHero("sprint_armed");
+        AnimationSword("sprint_sword");
+        AnimationShield("sprint_shield");
+    }
+
+    void ToSprintUnarmed()
+    {
+        AnimationHero("sprint");
     }
 
     void ToWalkArmed()
@@ -58,7 +78,7 @@ public partial class Hero : Unit
     {
         AnimationHero("walk");
     }
-    void ToMoveUnarmed()
+    void ToRunUnarmed()
     {
         AnimationHero("run");
     }
@@ -75,7 +95,7 @@ public partial class Hero : Unit
         AnimationShield("idle_shield");
     }
 
-    void ToMoveArmed()
+    void ToRunArmed()
     {
         AnimationHero("run_armed");
         AnimationSword("run_sword");
@@ -128,7 +148,7 @@ public partial class Hero : Unit
             case "front":
                 animator.Play($"{action}_front", 1);
                 spriteRendererSword.flipX = false;
-                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -5);
+                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -6);
                 break;
         }
     }
