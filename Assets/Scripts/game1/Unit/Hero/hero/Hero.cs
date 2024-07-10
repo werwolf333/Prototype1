@@ -74,6 +74,11 @@ public partial class Hero : Unit
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ToCritAttack();
+        }
+
         if (Input.GetKeyDown(KeyCode.X))
         {
             TakeDamageHero();
