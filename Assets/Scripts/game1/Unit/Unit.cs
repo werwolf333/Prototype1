@@ -18,22 +18,9 @@ public partial class Unit : MonoBehaviour
     public float runningSpeed;
     public float level;
 
-    protected string idle_back = "idle_back";
-    protected string idle_front = "idle_front";
-    protected string idle_side = "idle_side";
-
-    protected string run_back = "run_back";
-    protected string run_front = "run_front";
-    protected string run_side = "run_side";
-
-    protected string attack_back = "attack_back";
-    protected string attack_front = "attack_front";
-    protected string attack_side = "attack_side";
-
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
 
-    protected Coroutine attackCoroutine;
 
     protected float TimeClip(string clipName)
     {
@@ -49,38 +36,27 @@ public partial class Unit : MonoBehaviour
         return 0f;
     }
 
-    protected IEnumerator WaitAndPlayIdle(string startClip, string endClip, int animationLayer)
-    {
-        animator.Play(startClip);
-        float clipLength = TimeClip(startClip);
-        if (clipLength > 0)
-        {
-            yield return new WaitForSeconds(clipLength);
-            animator.Play(endClip, animationLayer);
-        }
-    }
-
     protected void AnimationIdle()
     {
         var startClip = "";
         if (orientation == "front")
         {
-            startClip = idle_front;
+            startClip = "idle_front";
         }
 
         if (orientation == "back")
         {
-            startClip = idle_back;
+            startClip = "idle_back";
         }
 
         if (orientation == "side_left")
         {
-            startClip = idle_side;
+            startClip = "idle_side";
             spriteRenderer.flipX = true;
         }
         if (orientation == "side_right")
         {
-            startClip = idle_side;
+            startClip = "idle_side";
         }  
         animator.Play(startClip);  
     }
@@ -90,22 +66,22 @@ public partial class Unit : MonoBehaviour
         var startClip = "";
         if (orientation == "front")
         {
-            startClip = run_front;
+            startClip = "run_front";
         }
 
         if (orientation == "back")
         {
-            startClip = run_back;
+            startClip = "run_back";
         }
 
         if (orientation == "side_left")
         {
-            startClip = run_side;
+            startClip = "run_side";
             spriteRenderer.flipX = true;
         }
         if (orientation == "side_right")
         {
-            startClip = run_side;
+            startClip = "run_side";
         }  
         animator.Play(startClip);  
     } 

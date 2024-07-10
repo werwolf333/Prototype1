@@ -8,8 +8,6 @@ public partial class Unit : MonoBehaviour
     protected string pain_front = "pain_front";
     protected string pain_side = "pain_side";
 
-    protected Coroutine takeDamageCoroutine;
-
     public void TakeDamage(float attack)
     {
         var pureAttack = attack - protection;
@@ -21,51 +19,45 @@ public partial class Unit : MonoBehaviour
         if(health <= 0)
         {
             var timeToDie = AnimationToDie();
+            CancelInvoke("AnimationIdle");
             Invoke("ToDie", timeToDie); 
         }
         else
         {
-            AnimationTakeDamage();
+            float clipLength = AnimationTakeDamage();
+            CancelInvoke("AnimationIdle");
+            Invoke("AnimationIdle", clipLength);
         }
     }
 
     protected float AnimationTakeDamage()
     {
         var startClip = "";
-        var endClip = "";
         if (orientation == "front")
         {
             startClip = "pain_front";
-            endClip = "idle_front";
             spriteRenderer.flipX = false;
         }
 
         if (orientation == "back")
         {
             startClip = "pain_back";
-            endClip = "idle_back";
             spriteRenderer.flipX = false;
         }
 
         if (orientation == "side_left")
         {
             startClip = "pain_side";
-            endClip = "idle_side";
             spriteRenderer.flipX = true;
         }
 
         if (orientation == "side_right")
         {
             startClip = "pain_side";
-            endClip = "idle_side";
             spriteRenderer.flipX = false;
         }
-        if (takeDamageCoroutine != null)
-        {
-            StopCoroutine(takeDamageCoroutine);
-        }
-        takeDamageCoroutine = StartCoroutine(WaitAndPlayIdle(startClip, endClip, 0));
-        var clipLength = TimeClip(startClip);
+        float clipLength = TimeClip(startClip);
+        animator.Play(startClip, 0, 0f); 
         return clipLength;
     }
 }
