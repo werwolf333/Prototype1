@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Unit : MonoBehaviour
+public partial class Enemy : Unit
 {
     protected string dying_back = "dying_back";
     protected string dying_front = "dying_front";

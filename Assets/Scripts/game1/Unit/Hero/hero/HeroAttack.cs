@@ -25,6 +25,7 @@ public partial class Hero : Unit
         foreach (var enemy in enemiesInAttack)
         {
             var enemyComponent = enemy.GetComponent<Enemy>();
+            enemyComponent.targetGoal = gameObject;
             enemyComponent.TakeDamage(damage);
         }
     }

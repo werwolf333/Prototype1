@@ -2,12 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Unit : MonoBehaviour
+public partial class Enemy : Unit
 {
-    protected string pain_back = "pain_back";
-    protected string pain_front = "pain_front";
-    protected string pain_side = "pain_side";
-
     public void TakeDamage(float attack)
     {
         var pureAttack = attack - protection;
@@ -18,15 +14,19 @@ public partial class Unit : MonoBehaviour
         health = health - pureAttack;
         if(health <= 0)
         {
+            busyAnimator = true;
             var timeToDie = AnimationToDie();
             CancelInvoke("AnimationIdle");
             Invoke("ToDie", timeToDie); 
         }
         else
         {
+            busyAnimator = true;
             float clipLength = AnimationTakeDamage();
-            CancelInvoke("AnimationIdle");
-            Invoke("AnimationIdle", clipLength);
+            CancelInvoke("SetBusyAnimatorFalse");
+            Invoke("SetBusyAnimatorFalse", clipLength);
+            UpdateOptionTactics(Options.attack);
+            Attack();
         }
     }
 

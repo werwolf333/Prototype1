@@ -23,10 +23,35 @@ public partial class Hero : Unit
 
     float AnimationTakeDamageUnarmed()
     {
-        var clipLength = AnimationTakeDamage();
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = "pain_front";
+            spriteRenderer.flipX = false;
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "pain_back";
+            spriteRenderer.flipX = false;
+        }
+
+        if (orientation == "side_left")
+        {
+            startClip = "pain_side";
+            spriteRenderer.flipX = true;
+        }
+
+        if (orientation == "side_right")
+        {
+            startClip = "pain_side";
+            spriteRenderer.flipX = false;
+        }
+        float clipLength = TimeClip(startClip);
+        animator.Play(startClip, 0, 0f); 
         return clipLength;
     } 
-
+    
     float AnimationTakeDamageArmed()
     {
         var startClip = "";
