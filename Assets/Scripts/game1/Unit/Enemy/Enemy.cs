@@ -4,15 +4,6 @@ using UnityEngine;
 
 public partial class Enemy : Unit
 {
-    public enum Options
-    {
-        patrol,
-        attack,
-        comeback,
-        wait
-    }
-    public Options optionsTactics;
-    protected string curTactics;
     public GameObject targetGoal;
     protected Transform bar;
     protected Transform cur;
@@ -35,49 +26,6 @@ public partial class Enemy : Unit
         OnValidate();
         redy = true;
         UpdateOptionTactics(Options.patrol);
-    }
-
-    private void UpdateOptionTactics(Options option)
-    {
-        optionsTactics = option;
-        UpdateOption(option);
-    }
-
-    void OnValidate()
-    {
-        UpdateOption(optionsTactics);
-    }
-
-    private void UpdateOption(Options option)
-    {
-        if(redy)
-        {
-            if (coroutinePatrol != null)
-            {
-                StopCoroutine(coroutinePatrol);
-                StopCoroutine(moveToNextPointCoroutine);
-                coroutinePatrol = null;
-            }
-            switch (option)
-            {
-                case Options.patrol:
-                if(curTactics != "patrol")
-                {
-                    ToPatrol();
-                }
-                    curTactics = "patrol";
-                    break;
-                case Options.attack:
-                    curTactics = "attack";
-                    break;
-                case Options.comeback:
-                    curTactics = "comeback";
-                    break;
-                case Options.wait:
-                    curTactics = "wait";
-                    break;
-            }
-        }
     }
 
     public void BarSetActive(bool b)
@@ -108,45 +56,38 @@ protected void Attack()
         if (Vector3.Distance(transform.position, nextPoint) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(transform.position, nextPoint, runningSpeed * Time.deltaTime);
-            UpdateOrientation(transform.position, nextPoint);
+            Run(transform.position, nextPoint);
         }
     }
 }
 
-    protected void UpdateOrientation(Vector3 currentPosition, Vector3 nextPoint)
-    {
-        Vector3 direction = nextPoint - currentPosition;
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            if (direction.x > 0)
-            {
-                orientation = "side_right";
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                orientation = "side_left";
-                spriteRenderer.flipX = true;
-            }
-        }
-        else
-        {
-            if (direction.y > 0)
-            {
-                orientation = "back";
-                spriteRenderer.flipX = false;
-            }
-            else
-            {
-                orientation = "front";
-                spriteRenderer.flipX = false;
-            }
-        }
-        AnimationRun();
-    }
-
     void SetBusyAnimatorFalse()
     {
         busyAnimator = false;
+    }
+
+    protected void AnimationIdle()
+    {
+        var startClip = "";
+        if (orientation == "front")
+        {
+            startClip = "idle_front";
+        }
+
+        if (orientation == "back")
+        {
+            startClip = "idle_back";
+        }
+
+        if (orientation == "side_left")
+        {
+            startClip = "idle_side";
+            spriteRenderer.flipX = true;
+        }
+        if (orientation == "side_right")
+        {
+            startClip = "idle_side";
+        }  
+        animator.Play(startClip);  
     }
 }

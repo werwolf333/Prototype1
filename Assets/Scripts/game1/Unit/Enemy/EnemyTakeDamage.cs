@@ -16,17 +16,18 @@ public partial class Enemy : Unit
         {
             busyAnimator = true;
             var timeToDie = AnimationToDie();
-            CancelInvoke("AnimationIdle");
+            CancelInvoke("SetBusyAnimatorFalse");
+            Invoke("SetBusyAnimatorFalse", timeToDie);
             Invoke("ToDie", timeToDie); 
         }
         else
         {
+            UpdateOptionTactics(Options.attack);
             busyAnimator = true;
             float clipLength = AnimationTakeDamage();
             CancelInvoke("SetBusyAnimatorFalse");
             Invoke("SetBusyAnimatorFalse", clipLength);
-            UpdateOptionTactics(Options.attack);
-            Attack();
+            //Attack();
         }
     }
 

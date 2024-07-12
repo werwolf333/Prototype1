@@ -29,7 +29,7 @@ public partial class Enemy : Unit
         while (true)
         {
             Vector3 nextPoint = patrolPoints[currentPointIndex];
-            UpdateOrientation(transform.position, nextPoint);
+            Run(transform.position, nextPoint);
             if (moveToNextPointCoroutine != null)
             {
                 StopCoroutine(moveToNextPointCoroutine);

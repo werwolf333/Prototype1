@@ -4,10 +4,6 @@ using UnityEngine;
 
 public partial class Enemy : Unit
 {
-    protected string dying_back = "dying_back";
-    protected string dying_front = "dying_front";
-    protected string dying_side = "dying_side";
-
     protected float AnimationToDie()
     {
         var startClip = "";
