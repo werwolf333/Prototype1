@@ -4,6 +4,8 @@ using UnityEngine;
 
 public partial class Enemy : Unit
 {
+    private Vector2[] patrolPoints;
+    public int currentPointIndex = 0;
     protected Coroutine coroutinePatrol;
     protected Coroutine moveToNextPointCoroutine;
     protected void ToPatrol()
@@ -13,12 +15,12 @@ public partial class Enemy : Unit
             startPosition = transform.position;
             float currentX = startPosition.x;
             float currentY = startPosition.y;
-            patrolPoints = new Vector3[]
+            patrolPoints = new Vector2[]
             {
-                new Vector3(currentX + 2, currentY, 0),
-                new Vector3(currentX + 2, currentY + 2, 0),
-                new Vector3(currentX, currentY + 2, 0),
-                new Vector3(currentX, currentY, 0)
+                new Vector2(currentX + 2, currentY),
+                new Vector2(currentX + 2, currentY + 2),
+                new Vector2(currentX, currentY + 2),
+                new Vector2(currentX, currentY)
             };
             coroutinePatrol = StartCoroutine(CoroutinePatrol());
         }

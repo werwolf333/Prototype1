@@ -70,6 +70,7 @@ public partial class Hero : Unit
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
+        StartCoroutine(UpdatePositionZ());
     }
 
     void Update()

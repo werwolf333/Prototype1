@@ -4,7 +4,7 @@ using UnityEngine;
 
 public partial class Hero : Unit
 {
-    void TakeDamageHero()
+    public void TakeDamageHero()
     {
         busyAnimator = true;
         if(isArmed)

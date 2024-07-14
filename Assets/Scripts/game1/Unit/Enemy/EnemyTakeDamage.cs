@@ -27,7 +27,6 @@ public partial class Enemy : Unit
             float clipLength = AnimationTakeDamage();
             CancelInvoke("SetBusyAnimatorFalse");
             Invoke("SetBusyAnimatorFalse", clipLength);
-            //Attack();
         }
     }
 

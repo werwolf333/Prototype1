@@ -7,8 +7,6 @@ public partial class Enemy : Unit
     public GameObject targetGoal;
     protected Transform bar;
     protected Transform cur;
-    private Vector3[] patrolPoints;
-    public int currentPointIndex = 0;
     protected Vector3 startPosition;
 
     private bool redy;
@@ -25,7 +23,8 @@ public partial class Enemy : Unit
         AnimationIdle();
         OnValidate();
         redy = true;
-        UpdateOptionTactics(Options.patrol);
+        //UpdateOptionTactics(Options.patrol);
+        StartCoroutine(UpdatePositionZ());
     }
 
     public void BarSetActive(bool b)
@@ -42,24 +41,27 @@ public partial class Enemy : Unit
     {
         if(!busyAnimator)
         {
-            Attack();
+            FollowTarget();
         }
     }
 
-
-protected void Attack()
-{
-    if (targetGoal != null)
+    protected void FollowTarget()
     {
-        Vector3 nextPoint = targetGoal.transform.position;
-        nextPoint.z = nextPoint.y / 10;  // Устанавливаем Z в 10 раз меньше Y
-        if (Vector3.Distance(transform.position, nextPoint) > 0.1f)
+        if (targetGoal != null && curTactics == "attack")
         {
-            transform.position = Vector3.MoveTowards(transform.position, nextPoint, runningSpeed * Time.deltaTime);
-            Run(transform.position, nextPoint);
+            Vector3 nextPoint = targetGoal.transform.position;
+            float distance = Vector3.Distance(transform.position, nextPoint);
+            if (distance > 0.7f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, nextPoint, runningSpeed * Time.deltaTime);
+                Run(transform.position, nextPoint);
+            }
+            else
+            {
+                Attack();
+            }
         }
     }
-}
 
     void SetBusyAnimatorFalse()
     {

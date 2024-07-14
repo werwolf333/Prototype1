@@ -35,4 +35,15 @@ public partial class Unit : MonoBehaviour
         }
         return 0f;
     }
+
+    protected IEnumerator UpdatePositionZ()
+    {
+        while (true)
+        {
+            Vector3 position = transform.position;
+            position.z = position.y * 0.01f;
+            transform.position = position;
+            yield return null; // Ждем следующий кадр перед продолжением
+        }
+    }
 }

@@ -35,7 +35,7 @@ public partial class Enemy : Unit
         }
         AnimationRun();
     }
-    
+
     protected void AnimationRun()
     {
         var startClip = "";
