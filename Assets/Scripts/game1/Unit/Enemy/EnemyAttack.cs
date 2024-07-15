@@ -6,6 +6,7 @@ public partial class Enemy : Unit
     private bool canAttack;
     private Coroutine attackCoroutine;
     private bool isAttack;
+    //private bool canAttruetack = true;
 
     void Attack()
     {
@@ -30,6 +31,28 @@ public partial class Enemy : Unit
         yield return new WaitForSeconds(clipLength -0.66f);
         isAttack = false;
     }
+
+
+    /*void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "hero")
+        {
+            canAttack = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "hero")
+        {
+            canAttack = false;
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
+            }
+        }
+    }*/ 
 
     protected float AnimationAttack()
     {

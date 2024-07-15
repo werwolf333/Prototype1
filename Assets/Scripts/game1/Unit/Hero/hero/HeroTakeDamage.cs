@@ -6,6 +6,7 @@ public partial class Hero : Unit
 {
     public void TakeDamageHero()
     {
+        currentAnimation = "AnimationTakeDamageUnarmed";
         busyAnimator = true;
         if(isArmed)
         {
@@ -24,6 +25,7 @@ public partial class Hero : Unit
     float AnimationTakeDamageUnarmed()
     {
         var startClip = "";
+
         if (orientation == "front")
         {
             startClip = "pain_front";
@@ -47,10 +49,22 @@ public partial class Hero : Unit
             startClip = "pain_side";
             spriteRenderer.flipX = false;
         }
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if(currentClip == "")
+        {
+            currentClip = startClip;
+            animator.Play(startClip, 0);
+        }
+        currentAnimationTime = Mathf.Repeat(stateInfo.normalizedTime, 1f);
+        if(currentClip != startClip)
+        {
+           animator.Play(startClip, 0, currentAnimationTime); 
+        }
         float clipLength = TimeClip(startClip);
-        animator.Play(startClip, 0, 0f); 
         return clipLength;
-    } 
+    }
     
     float AnimationTakeDamageArmed()
     {

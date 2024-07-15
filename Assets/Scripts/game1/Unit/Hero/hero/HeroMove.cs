@@ -133,22 +133,22 @@ public partial class Hero : Unit
             case "side_right":
                 animator.Play($"{action}_side", 1);
                 spriteRendererSword.flipX = false;
-                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.002f);
+                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.2f);
                 break;
             case "side_left":
                 animator.Play($"{action}_side", 1);
                 spriteRendererSword.flipX = true;
-                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.002f);
+                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.2f);
                 break;
             case "back":
                 animator.Play($"{action}_back", 1);
                 spriteRendererSword.flipX = false;
-                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.0001f);
+                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.1f);
                 break;
             case "front":
                 animator.Play($"{action}_front", 1);
                 spriteRendererSword.flipX = false;
-                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.003f);
+                swordTransform.position = new Vector3(swordTransform.position.x, swordTransform.position.y, -0.3f);
                 break;
         }
     }
@@ -161,22 +161,22 @@ public partial class Hero : Unit
             case "side_right":
                 animator.Play($"{action}_side", 2);
                 spriteRendererShield.flipX = false;
-                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.002f);
+                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.2f);
                 break;
             case "side_left":
                 animator.Play($"{action}_side", 2);
                 spriteRendererShield.flipX = true;
-                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.002f);
+                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.2f);
                 break;
             case "back":
                 animator.Play($"{action}_back", 2);
                 spriteRendererShield.flipX = false;
-                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.002f);
+                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.2f);
                 break;
             case "front":
                 animator.Play($"{action}_front", 2);
                 spriteRendererShield.flipX = false;
-                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.002f);
+                shieldTransform.position = new Vector3(shieldTransform.position.x, shieldTransform.position.y, -0.2f);
                 break;
         }
     }

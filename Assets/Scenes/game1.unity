@@ -336,9 +336,9 @@ MonoBehaviour:
   attackSpeed: 0
   runningSpeed: 2
   level: 0
-  optionsMoveHero: 1
   busyAnimator: 0
-  isArmed: 1
+  isArmed: 0
+  optionsMoveHero: 1
 --- !u!50 &483014205
 Rigidbody2D:
   serializedVersion: 4

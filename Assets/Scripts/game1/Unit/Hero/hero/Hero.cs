@@ -4,16 +4,6 @@ using UnityEngine;
 
 public partial class Hero : Unit
 {
-    public enum Options
-    {
-        walk,
-        run,
-        sprint
-    }
-
-    public Options optionsMoveHero;
-    private string moveHero;
-    
     private Rigidbody2D rb;
     public bool busyAnimator;
     private AllVision allVisionComponent;
@@ -23,35 +13,10 @@ public partial class Hero : Unit
     private GameObject shield;
     private SpriteRenderer spriteRendererSword;
     private SpriteRenderer spriteRendererShield;
-
-    void OnValidate()
-    {
-        UpdateOptionString(optionsMoveHero);
-    }
-
-    public void SetOption(Options newOption)
-    {
-        UpdateOptionString(optionsMoveHero);
-    }
-
-    private void UpdateOptionString(Options option)
-    {
-        switch (option)
-        {
-            case Options.walk:
-                moveHero = "walk";
-                runningSpeed = 1f;
-                break;
-            case Options.run:
-                moveHero = "run";
-                runningSpeed = 2f;
-                break;
-            case Options.sprint:
-                moveHero = "sprint";
-                runningSpeed = 3f;
-                break;
-        }
-    }
+    private string currentAnimation = "";
+    private string currentClip = "";
+    private float currentAnimationTime = 0f; 
+    private string lastOrientation;
 
     void Start()
     {
@@ -71,6 +36,18 @@ public partial class Hero : Unit
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
         StartCoroutine(UpdatePositionZ());
+    }
+
+    void UpdateOrientation()
+    {
+        if (lastOrientation != orientation)
+        {
+            lastOrientation = orientation;
+            if(currentAnimation == "AnimationTakeDamageUnarmed")
+            {
+                AnimationTakeDamageUnarmed();
+            }
+        }
     }
 
     void Update()
@@ -95,11 +72,15 @@ public partial class Hero : Unit
         var movement = new Vector2(moveX, moveY);
         transform.Translate(movement * runningSpeed * Time.deltaTime);
         ToOrientation(moveX, moveY);
+        UpdateOrientation();
         AnimationMoveHero(moveX, moveY);
     }
 
     void SetBusyAnimatorFalse()
     {
         busyAnimator = false;
+        currentAnimation = "";
+        currentClip = "";
+        currentAnimationTime = 0f;   
     }
 }
