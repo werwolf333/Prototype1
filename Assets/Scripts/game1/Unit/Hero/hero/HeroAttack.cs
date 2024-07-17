@@ -4,9 +4,11 @@ using UnityEngine;
 
 public partial class Hero : Unit
 {
+    private bool isStopMove;
     void ToAttack()
     {
         busyAnimator = true;
+        isStopMove = true;
         if(isArmed)
         {
             var clipLength = AnimationArmedAttack();
@@ -14,12 +16,16 @@ public partial class Hero : Unit
             AnimationShieldAttack();
             CancelInvoke("SetBusyAnimatorFalse");
             Invoke("SetBusyAnimatorFalse", clipLength);
+            CancelInvoke("IsAttackFalse");
+            Invoke("IsAttackFalse", clipLength);
         }
         else
         {
             var clipLength = AnimationUnarmedAttack();
             CancelInvoke("SetBusyAnimatorFalse");
             Invoke("SetBusyAnimatorFalse", clipLength);
+            CancelInvoke("IsAttackFalse");
+            Invoke("IsAttackFalse", clipLength);
         }
         var enemiesInAttack = attackComponent.enemiesInAttack;
         foreach (var enemy in enemiesInAttack)
@@ -28,6 +34,11 @@ public partial class Hero : Unit
             enemyComponent.targetGoal = gameObject;
             enemyComponent.TakeDamage(damage);
         }
+    }
+
+    void IsAttackFalse()
+    {
+        isStopMove = false;
     }
 
     float AnimationUnarmedAttack()

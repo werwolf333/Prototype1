@@ -70,7 +70,10 @@ public partial class Hero : Unit
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
         var movement = new Vector2(moveX, moveY);
-        transform.Translate(movement * runningSpeed * Time.deltaTime);
+        if(!isStopMove)
+        {
+            transform.Translate(movement * runningSpeed * Time.deltaTime);
+        }
         ToOrientation(moveX, moveY);
         UpdateOrientation();
         AnimationMoveHero(moveX, moveY);
